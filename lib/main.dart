@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widget/card_body.dart';
+
 void main() {
   // runApp(const MyApp());
   runApp(const MaterialApp(
@@ -15,38 +17,58 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      appBar: AppBar(
+        title: const Center(
+            child: Text(
+          'Todo list',
+          style: TextStyle(fontSize: 32),
+        )),
+        backgroundColor: Colors.amber,
+      ),
+      body: const SingleChildScrollView(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
           children: [
-            boxMethod('box 1', Alignment.bottomCenter),
-            boxMethod('box 2', Alignment.bottomCenter),
+            CartBody(),
+            CartBody(),
+            CartBody(),
+            CartBody(),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            boxMethod('box 3', Alignment.bottomCenter),
-            boxMethod('box 4', Alignment.bottomCenter),
-          ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (BuildContext content) {
+                return Padding(
+                  padding: MediaQuery.of(context).viewInsets,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 20),
+                    child: Column(
+                      children: [
+                        const TextField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Do something',
+                          ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () {}, child: const Text('Add task')),
+                      ],
+                    ),
+                  ),
+                );
+              });
+        },
+        backgroundColor: Colors.amber,
+        child: const Icon(
+          Icons.add,
+          size: 32,
         ),
-      ],
-    ));
-  }
-
-  Container boxMethod(String boxName, Alignment direction) {
-    return Container(
-      alignment: direction,
-      width: 150,
-      height: 150,
-      color: Color.fromARGB(224, 100, 169, 225),
-      child: Text(boxName,
-          style: TextStyle(
-            fontSize: 24,
-            color: Color.fromARGB(225, 225, 100, 225),
-          )),
+      ),
     );
   }
 }
