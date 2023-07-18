@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/modal/items.dart';
 
+import 'widget/modal.dart';
 import 'widget/card_body.dart';
 
 void main() {
   // runApp(const MyApp());
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MyApp(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
+
+  final List<DataItems> items = [
+    DataItems(id: '1', name: 'Learn flutter'),
+    DataItems(id: '2', name: 'Learn laravel'),
+    DataItems(id: '3', name: 'Learn Japanese'),
+    DataItems(id: '4', name: 'Go shopping'),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,16 +34,10 @@ class MyApp extends StatelessWidget {
         )),
         backgroundColor: Colors.amber,
       ),
-      body: const SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-          children: [
-            CartBody(),
-            CartBody(),
-            CartBody(),
-            CartBody(),
-          ],
-        ),
+            children: items.map((item) => CardBody(item: item)).toList()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -42,25 +45,7 @@ class MyApp extends StatelessWidget {
               isScrollControlled: true,
               context: context,
               builder: (BuildContext content) {
-                return Padding(
-                  padding: MediaQuery.of(context).viewInsets,
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    child: Column(
-                      children: [
-                        const TextField(
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: 'Do something',
-                          ),
-                        ),
-                        ElevatedButton(
-                            onPressed: () {}, child: const Text('Add task')),
-                      ],
-                    ),
-                  ),
-                );
+                return Modal();
               });
         },
         backgroundColor: Colors.amber,

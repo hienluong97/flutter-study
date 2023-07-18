@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CartBody extends StatelessWidget {
-  const CartBody({
-    super.key,
-  });
+class CardBody extends StatelessWidget {
+  CardBody({Key? key, required this.item}) : super(key: key);
+  var item;
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +14,16 @@ class CartBody extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         color: const Color.fromARGB(255, 120, 173, 223),
       ),
-      child: const Padding(
-        padding: EdgeInsets.all(12),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Test',
-              style: TextStyle(fontSize: 20),
+              item.name,
+              style: const TextStyle(fontSize: 20),
             ),
-            Icon(
+            const Icon(
               Icons.delete_outline,
             ),
           ],
