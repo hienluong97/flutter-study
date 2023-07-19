@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 
 class Modal extends StatelessWidget {
-  const Modal({
-    super.key,
-  });
+  Modal({Key? key, required this.addTask}) : super(key: key);
+
+  String textValue = '';
+
+  void _handleOnTextInputChange(text) {
+    textValue = text;
+  }
+
+  final Function addTask;
+  void _handleOnClick(BuildContext context) {
+    if (textValue.isEmpty) {
+      return;
+    }
+    addTask(textValue);
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,16 +26,17 @@ class Modal extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [
-            const TextField(
-              decoration: InputDecoration(
+            TextField(
+              onChanged: (text) {
+                _handleOnTextInputChange(text);
+              },
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Do something',
               ),
             ),
             ElevatedButton(
-                onPressed: () {
-                  print('hello');
-                },
+                onPressed: (() => _handleOnClick(context)),
                 child: const Text('Add task')),
           ],
         ),

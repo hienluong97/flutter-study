@@ -12,17 +12,30 @@ void main() {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-  final List<DataItems> items = [
-    DataItems(id: '1', name: 'Learn flutter'),
-    DataItems(id: '2', name: 'Learn laravel'),
-    DataItems(id: '3', name: 'Learn Japanese'),
-    DataItems(id: '4', name: 'Go shopping'),
-  ];
+class _MyAppState extends State<MyApp> {
+  // This widget is the root of your application.
+  final List<DataItems> items = [DataItems(id: '1', name: 'Learn Flutter')];
+
+  void _handleAddTask(String task) {
+    final newItem = DataItems(id: DateTime.now().toString(), name: task);
+    setState(() {
+      items.add(newItem);
+    });
+  }
+
+  void _handleDeleteTask(String id) {
+    setState(() {
+      items.removeWhere((item) => item.id == id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +50,9 @@ class MyApp extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
-            children: items.map((item) => CardBody(item: item)).toList()),
+            children: items
+                .map((item) => CardBody(item: item, delTask: _handleDeleteTask))
+                .toList()),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -45,7 +60,7 @@ class MyApp extends StatelessWidget {
               isScrollControlled: true,
               context: context,
               builder: (BuildContext content) {
-                return Modal();
+                return Modal(addTask: _handleAddTask);
               });
         },
         backgroundColor: Colors.amber,

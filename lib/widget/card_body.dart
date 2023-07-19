@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CardBody extends StatelessWidget {
-  CardBody({Key? key, required this.item}) : super(key: key);
+  CardBody({Key? key, required this.item, required this.delTask})
+      : super(key: key);
   var item;
 
+  final Function delTask;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,8 +25,14 @@ class CardBody extends StatelessWidget {
               item.name,
               style: const TextStyle(fontSize: 20),
             ),
-            const Icon(
-              Icons.delete_outline,
+            InkWell(
+              onTap: () {
+                print(item.id);
+                delTask(item.id);
+              },
+              child: const Icon(
+                Icons.delete_outline,
+              ),
             ),
           ],
         ),
